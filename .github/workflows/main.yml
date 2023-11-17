@@ -1,49 +1,48 @@
-name: learn-accuknox-report-action
+
+name: Go Microservice CI/CD
+
 on:
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened]
   push:
-    branches: [main]
+    branches:
+      - main
+
 jobs:
-  check-working:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-        - name: Checkout repo
-          uses: actions/checkout@v3
-          with:
-            submodules: true
-            
-        - name: Checkout kubearmor repo
-          uses: actions/checkout@v3
-          with:
-            repository: kubearmor/KubeArmor
-            ref: main
-            path: Kubearmor
-  
-        - name: Setup a Kubernetes environment
-          run: |
-            ./Kubearmor/contribution/k3s/install_k3s.sh
-             sudo apt install socat
-                     
-        - name: Install accuknoxcli, KubeArmor and Discovery Engine
-          uses: accuknox/install-action@v0.1.1    
-          
-        - name: Set up Go
-          uses: actions/setup-go@v2
-          with:
-            go-version: '1.16'
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-        - name: Build and test
-          run: |
-            go build 
-            go test ./...
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.16'
 
-        - name: Deploy to production
-          run: |
-            ./main &
-            sleep 5
-            curl http://localhost:8080/api/hello
-     
-        - name: Generate Report
-          uses: accuknox/report-action@v0.1.2
+    - name: Build and test
+      run: |
+        go build
+        go test ./...
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Deploy to production
+      run: |
+        # Add your deployment script or commands here
+        # For example, you can use tools like Docker to containerize your app and deploy it to a server.
+        # This example assumes a simple deployment where you run the compiled binary.
+
+        ./main &
+
+        # Sleep for a few seconds to let the server start
+        sleep 5
+
+        # Test the API endpoint
+        curl http://localhost:8080/api/hello

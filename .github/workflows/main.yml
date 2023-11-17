@@ -1,45 +1,34 @@
-
-name: Go Microservice CI/CD
-
+name: learn-accuknox-report-action
 on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
   push:
-    branches:
-      - main
-
+    branches: [main]
 jobs:
-  build:
+  check-working:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: '1.16'
+        - name: Checkout repo
+          uses: actions/checkout@v3
+          with:
+            submodules: true
+            
+        - name: Checkout kubearmor repo
+          uses: actions/checkout@v3
+          with:
+            repository: kubearmor/KubeArmor
+            ref: main
+            path: Kubearmor
+  
+        - name: Setup a Kubernetes environment
+          run: |
+            ./Kubearmor/contribution/k3s/install_k3s.sh
+             sudo apt install socat
         
-    - name: Initialize Go module
-      run: go mod init main
+        - name: Install accuknoxcli, KubeArmor and Discovery Engine
+          uses: accuknox/install-action@v0.1.1 
+ 
+        - name: Generate Report
+          uses: accuknox/report-action@v0.1.2
 
-    - name: Build and test
-      run: |
-        go build
-        go test ./...
-
-  deploy:
-    runs-on: ubuntu-latest
-
-    needs: build
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Deploy to production
-      run: |
-        ./main > server.log 2>&1 &
-        sleep 30s
-        cat server.log
-        curl http://localhost:8080/api/hello
-        curl http://localhost:8080/api/whoami

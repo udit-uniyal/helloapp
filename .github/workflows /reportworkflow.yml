@@ -27,7 +27,24 @@ jobs:
              sudo apt install socat
                      
         - name: Install accuknoxcli, KubeArmor and Discovery Engine
-          uses: accuknox/install-action@v0.1.1     
-       
+          uses: accuknox/install-action@v0.1.1    
+          
+        - name: Set up Go
+          uses: actions/setup-go@v2
+          with:
+            go-version: '1.16'
+
+        - name: Build and test
+          run: |
+            cd ./src
+            go build 
+            go test ./...
+
+        - name: Deploy to production
+          run: |
+            ./main &
+            sleep 5
+            curl http://localhost:8080/api/hello
+     
         - name: Generate Report
           uses: accuknox/report-action@v0.1.2

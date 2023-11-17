@@ -36,7 +36,7 @@ jobs:
 
         - name: Build and test
           run: |
-            go build ./src/* 
+            go build 
             go test ./...
 
         - name: Deploy to production

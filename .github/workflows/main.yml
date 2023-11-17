@@ -38,14 +38,8 @@ jobs:
 
     - name: Deploy to production
       run: |
-        # Add your deployment script or commands here
-        # For example, you can use tools like Docker to containerize your app and deploy it to a server.
-        # This example assumes a simple deployment where you run the compiled binary.
-
-        ./main &
-
-        # Sleep for a few seconds to let the server start
-        sleep 5
-
-        # Test the API endpoint
+        ./main > server.log 2>&1 &
+        sleep 30s
+        cat server.log
         curl http://localhost:8080/api/hello
+        curl http://localhost:8080/api/whoami

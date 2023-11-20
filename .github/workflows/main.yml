@@ -55,6 +55,14 @@ jobs:
           run: |
             kubectl apply -f k8s/deployment.yaml
             sleep 120s
+            POD_NAME=$(kubectl get pods -l app=my-golang-app -o jsonpath="{.items[0].metadata.name}")
+            echo "POD_NAME=${POD_NAME}" >> $GITHUB_ENV
+
+        - name: Check Pod Status
+          run: kubectl get pods
+
+        - name: Check Pod Events
+          run: kubectl describe pod $POD_NAME
         
         - name: Test API endpoints
           run: |

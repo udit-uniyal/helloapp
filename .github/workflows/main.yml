@@ -53,6 +53,8 @@ jobs:
 
         - name: Deploy to Kubernetes
           run: |
+            IMAGE_REF="docker-archive://$HOME/docker-images/my-golang-app.tar"
+            sed -i "s|image:.*|image: $IMAGE_REF|" k8s/deployment.yaml
             kubectl apply -f k8s/deployment.yaml
             sleep 120s
             POD_NAME=$(kubectl get pods -l app=my-golang-app -o jsonpath="{.items[0].metadata.name}")

@@ -54,7 +54,7 @@ jobs:
         - name: Deploy to Kubernetes
           run: |
             kubectl apply -f k8s/deployment.yaml
-            sleep 10
+            sleep 30
         
         - name: Test API endpoints
           run: |

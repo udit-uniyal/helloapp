@@ -54,12 +54,12 @@ jobs:
         - name: Deploy to Kubernetes
           run: |
             kubectl apply -f k8s/deployment.yaml
-            sleep 30
+            sleep 120s
         
         - name: Test API endpoints
           run: |
             kubectl port-forward svc/my-golang-app 8080:8080 &
-            sleep 30
+            sleep 30s
             curl http://localhost:8080/api/hello
  
         - name: Generate Report

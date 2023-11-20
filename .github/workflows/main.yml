@@ -42,13 +42,25 @@ jobs:
             go build
             go test ./...
 
-        - name: Deploy to production
+        - name: Dockerize
           run: |
-            ./main > server.log 2>&1 &
-            sleep 30s
-            cat server.log
+            docker build -t my-golang-app .
+            mkdir -p $HOME/docker-images
+            docker save -o $HOME/docker-images/my-golang-app.tar my-golang-app
+
+        - name: Load Docker image locally
+          run: docker load -i $HOME/docker-images/my-golang-app.tar
+
+        - name: Deploy to Kubernetes
+          run: |
+            kubectl apply -f k8s/deployment.yaml
+            sleep 10
+        
+        - name: Test API endpoints
+          run: |
+            kubectl port-forward svc/my-golang-app 8080:8080 &
+            sleep 30
             curl http://localhost:8080/api/hello
-            curl http://localhost:8080/api/whoami
  
         - name: Generate Report
           uses: accuknox/report-action@v0.1.2

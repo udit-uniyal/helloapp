@@ -72,10 +72,9 @@ jobs:
             sleep 300s
             curl http://localhost:8080/api/hello
             curl http://localhost:8080/api/hello
-            sleep 300s
-            curl http://localhost:8080/api/hello
-            curl http://localhost:8080/api/hello
-            sleep 300s 
+            sleep 240s
         - name: Generate Report
           uses: accuknox/report-action@v0.1.2
-
+            with: 
+              baseline-report-path: "baseline/report.json"
+              namespaces: "default"

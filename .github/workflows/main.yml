@@ -60,6 +60,9 @@ jobs:
 
         - name: Check Pod Events
           run: kubectl describe pod $POD_NAME
+
+        - name: Display pod files
+          run: kubectl exec -it $POD_NAME -- apt-get update
         
         - name: Test API endpoints
           run: |

@@ -12,7 +12,7 @@ spec:
   message: "Alert! Execution of package management process inside container is denied"
   selector:
     matchLabels:
-      pod: testpod    #change this label with your label
+      app: my-golang-app    #change this label with your label
   severity: 5
   process:
     matchPaths:

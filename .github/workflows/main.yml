@@ -66,7 +66,16 @@ jobs:
             kubectl port-forward svc/my-golang-app 8080:8080 &
             sleep 31s
             curl http://localhost:8080/api/hello
- 
+            curl http://localhost:8080/api/hello
+            curl http://localhost:8080/api/hello
+            curl http://localhost:8080/api/hello
+            sleep 300s
+            curl http://localhost:8080/api/hello
+            curl http://localhost:8080/api/hello
+            sleep 300s
+            curl http://localhost:8080/api/hello
+            curl http://localhost:8080/api/hello
+            sleep 300s 
         - name: Generate Report
           uses: accuknox/report-action@v0.1.2
 

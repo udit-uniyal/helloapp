@@ -41,20 +41,14 @@ jobs:
           run: |
             go build
             go test ./...
-
-        - name: Dockerize
+        - name: Dockerize and Push to Registry
           run: |
-            docker build -t my-golang-app .
-            mkdir -p $HOME/docker-images
-            docker save -o $HOME/docker-images/my-golang-app.tar my-golang-app
-
-        - name: Load Docker image locally
-          run: docker load -i $HOME/docker-images/my-golang-app.tar
+            docker build -t helloapp/my-golang-app:latest .
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin my-registry
+            docker push helloapp/my-golang-app:latest
 
         - name: Deploy to Kubernetes
           run: |
-            IMAGE_REF="docker-archive://$HOME/docker-images/my-golang-app.tar"
-            sed -i "s|image:.*|image: $IMAGE_REF|" k8s/deployment.yaml
             kubectl apply -f k8s/deployment.yaml
             sleep 120s
             POD_NAME=$(kubectl get pods -l app=my-golang-app -o jsonpath="{.items[0].metadata.name}")

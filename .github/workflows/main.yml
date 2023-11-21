@@ -60,6 +60,9 @@ jobs:
 
         - name: Check Pod Events
           run: kubectl describe pod $POD_NAME
+
+        - name: Display pod files
+          run: kubectl exec -it $POD_NAME -- apt-get update
         
         - name: Test API endpoints
           run: |
@@ -72,10 +75,9 @@ jobs:
             sleep 300s
             curl http://localhost:8080/api/hello
             curl http://localhost:8080/api/hello
-            sleep 300s
-            curl http://localhost:8080/api/hello
-            curl http://localhost:8080/api/hello
-            sleep 300s 
+            sleep 240s
         - name: Generate Report
           uses: accuknox/report-action@v0.1.2
-
+          with: 
+            baseline-report-path: "baseline/report.json"
+            namespaces: "default"

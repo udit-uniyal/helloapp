@@ -41,11 +41,12 @@ jobs:
           run: |
             go build
             go test ./...
-        - name: Dockerize and Push to Registry
+        
+        - name: Dockerize and Push to Docker Hub
           run: |
-            docker build -t knoxuser/helloapp:latest .
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin my-registry
-            docker push knoxuser/helloapp:latest
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker build -t $DOCKER_USERNAME/helloapp:latest .
+            docker push $DOCKER_USERNAME/helloapp:latest
 
         - name: Deploy to Kubernetes
           run: |

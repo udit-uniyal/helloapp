@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: my-golang-app
-        image: docker-archive://$HOME/docker-images/my-golang-app.tar
+        image: knoxuser/helloapp:latest
         imagePullPolicy: Never  # Ensure Kubernetes doesn't try to pull the image
         ports:
         - containerPort: 8080

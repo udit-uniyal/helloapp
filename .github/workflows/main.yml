@@ -43,9 +43,9 @@ jobs:
             go test ./...
         - name: Dockerize and Push to Registry
           run: |
-            docker build -t helloapp/my-golang-app:latest .
+            docker build -t knoxuser/helloapp:latest .
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin my-registry
-            docker push helloapp/my-golang-app:latest
+            docker push knoxuser/helloapp:latest
 
         - name: Deploy to Kubernetes
           run: |

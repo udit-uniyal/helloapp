@@ -41,15 +41,41 @@ jobs:
           run: |
             go build
             go test ./...
-
-        - name: Deploy to production
+        
+        - name: Dockerize and Push to Docker Hub
           run: |
-            ./main > server.log 2>&1 &
-            sleep 30s
-            cat server.log
+              echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+              docker build -t "${{ secrets.DOCKER_USERNAME }}/helloapp:latest" .
+              docker push "${{ secrets.DOCKER_USERNAME }}/helloapp:latest"
+
+        - name: Deploy to Kubernetes
+          run: |
+            kubectl apply -f k8s/deployment.yaml
+            sleep 120s
+            POD_NAME=$(kubectl get pods -l app=my-golang-app -o jsonpath="{.items[0].metadata.name}")
+            echo "POD_NAME=${POD_NAME}" >> $GITHUB_ENV
+
+        - name: Check Pod Status
+          run: kubectl get pods
+
+        - name: Check Pod Events
+          run: kubectl describe pod $POD_NAME
+        
+        - name: Test API endpoints
+          run: |
+            kubectl port-forward svc/my-golang-app 8080:8080 &
+            sleep 31s
             curl http://localhost:8080/api/hello
-            curl http://localhost:8080/api/whoami
- 
+            curl http://localhost:8080/api/hello
+            curl http://localhost:8080/api/hello
+            curl http://localhost:8080/api/hello
+            sleep 300s
+            curl http://localhost:8080/api/hello
+            curl http://localhost:8080/api/hello
+            sleep 300s
+            curl http://localhost:8080/api/hello
+            curl http://localhost:8080/api/hello
+            sleep 300s 
         - name: Generate Report
           uses: accuknox/report-action@v0.1.2
 

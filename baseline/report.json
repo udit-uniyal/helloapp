@@ -1,0 +1,64 @@
+{
+  "Clusters": {
+    "default": {
+      "ClusterName": "default",
+      "Namespaces": {
+        "accuknox-agents": {
+          "NamespaceName": "accuknox-agents",
+          "ResourceTypes": {
+            "Deployment": {
+              "ResourceType": "Deployment",
+              "Resources": {
+                "discovery-engine": {
+                  "ResourceType": "Deployment",
+                  "ResourceName": "discovery-engine",
+                  "MetaData": {
+                    "Label": "app=discovery-engine",
+                    "ContainerName": "discovery-engine"
+                  },
+                  "SummaryData": {
+                    "ProcessData": [
+                      {
+                        "Source": "/usr/bin/containerd-shim-runc-v2",
+                        "Destination": "/knoxAutoPolicy",
+                        "Status": "Allow"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "default": {
+          "NamespaceName": "default",
+          "ResourceTypes": {
+            "Deployment": {
+              "ResourceType": "Deployment",
+              "Resources": {
+                "my-golang-app": {
+                  "ResourceType": "Deployment",
+                  "ResourceName": "my-golang-app",
+                  "MetaData": {
+                    "Label": "app=my-golang-app",
+                    "ContainerName": "my-golang-app"
+                  },
+                  "SummaryData": {
+                    "IngressConnection": [
+                      {
+                        "Protocol": "TCPv6",
+                        "Command": "/app/main",
+                        "IP": "127.0.0.1",
+                        "Port": "8080"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

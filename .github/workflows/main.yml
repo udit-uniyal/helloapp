@@ -51,7 +51,7 @@ jobs:
         - name: Apply kubearmor policy to block package management tool executions
           run: |
             kubectl apply -f k8s/pkgpolicyblock.yaml
-            sleep 30sec
+            sleep 30s
             kubectl get ksp
 
         - name: Deploy to Kubernetes

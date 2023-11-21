@@ -45,7 +45,7 @@ jobs:
         - name: Dockerize and Push to Docker Hub
           run: |
               echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-              docker build -t "${{ secrets.DOCKER_USERNAME }}/helloapp:latest" Dockerfile
+              docker build -t "${{ secrets.DOCKER_USERNAME }}/helloapp:latest" .
               docker push "${{ secrets.DOCKER_USERNAME }}/helloapp:latest"
 
         - name: Apply kubearmor policy to block package management tool executions

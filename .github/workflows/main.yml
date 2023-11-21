@@ -71,7 +71,7 @@ jobs:
           run: kubectl exec -it $POD_NAME -- apt-get update
         
         - name: Test API endpoints
-          #run: |
+          run: |
             kubectl port-forward svc/my-golang-app 8080:8080 &
             sleep 31s
             curl http://localhost:8080/api/hello

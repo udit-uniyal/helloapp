@@ -69,7 +69,7 @@ jobs:
         - name: Test API endpoints
           run: |
             kubectl port-forward svc/my-golang-app 8080:8080 &
-            sleep 30s
+            sleep 31s
             curl http://localhost:8080/api/hello
  
         - name: Generate Report

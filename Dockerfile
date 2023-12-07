@@ -8,6 +8,8 @@ COPY . .
 RUN go build
 
 EXPOSE 8080
+# Expose port 80
+EXPOSE 80
 
 CMD ["./main"]
 

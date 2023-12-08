@@ -16,6 +16,10 @@ func whoamiHandler(w http.ResponseWriter, r *http.Request) {
 func newYorkHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "New York")
 }
+func timeHandler(w http.ResponseWriter, r *http.Request) {
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
+	fmt.Fprint(w, "Current Time: ", currentTime)
+}
 func main() {
 	http.HandleFunc("/api/hello", helloHandler)
    	http.HandleFunc("/api/whoami", whoamiHandler)
@@ -25,4 +29,5 @@ func main() {
 	http.HandleFunc("/api/newyork", newYorkHandler)
 	fmt.Println("Server listening on :80")
 	http.ListenAndServe(":80", nil)
+	http.HandleFunc("/api/time", timeHandler)
 }

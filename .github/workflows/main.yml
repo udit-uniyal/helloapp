@@ -50,7 +50,7 @@ jobs:
 
         - name: Apply kubearmor policy to block package management tool executions
           run: |
-            kubectl apply -f k8s/pkgpolicyblock.yaml
+            kubectl apply -f https://raw.githubusercontent.com/kubearmor/policy-templates/release/generic/system/ksp-file-integrity-monitoring.yaml
             sleep 30s
             kubectl get ksp
 

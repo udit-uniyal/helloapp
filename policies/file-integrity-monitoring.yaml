@@ -9,7 +9,7 @@ spec:
   severity: 1
   selector:
     matchLabels:
-      app: wordpress
+      app: my-golang-app
   file:
     matchDirectories:
     - dir: /sbin/

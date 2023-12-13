@@ -89,6 +89,12 @@ jobs:
             curl http://localhost:8080/api/whoami
             cat /etc/passwd
             #sleep 300s
+
+        - name: Install k8tls and generate report
+          run: |
+            kubectl apply -f https://raw.githubusercontent.com/kubearmor/k8tls/main/k8s/job.yaml
+            sleep 120s
+            kubectl logs -n k8tls $(kubectl get pod -n k8tls -l job-name=k8tls -o name) -f   
             
         - name: Generate Report
           uses: accuknox/report-action@v0.1.2

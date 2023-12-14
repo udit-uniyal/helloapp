@@ -66,12 +66,11 @@ jobs:
         - name: Display pod files
           run: kubectl exec -it $POD_NAME -- apt-get update
 
-        - name: Downloading and running attack.sh script
-          run: |
-            curl -O https://raw.githubusercontent.com/accuknox/samples/main/attack_script_demo/attack.sh && chmod +x attack.sh &
-            ./attack.sh
-            
-        
+#        - name: Downloading and running attack.sh script
+#          run: |
+#            curl -O https://raw.githubusercontent.com/accuknox/samples/main/attack_script_demo/attack.sh && chmod +x attack.sh &
+#            ./attack.sh
+                   
         - name: Test API endpoints
           run: |
             kubectl port-forward svc/my-golang-app 8080:8080 &

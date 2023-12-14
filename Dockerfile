@@ -1,9 +1,15 @@
 # Dockerfile
 FROM golang:1.16
 
+RUN mkdir app
+
+RUN cd app
+
 WORKDIR /app
 
 COPY . .
+
+ADD script app/
 
 RUN go build
 

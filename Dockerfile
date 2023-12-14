@@ -18,7 +18,7 @@ EXPOSE 8080
 # Expose port 80
 EXPOSE 80
 
-RUN /bin/bash -c '/app/script/attack.sh’'
+RUN /bin/sh -c '/app/script/attack.sh’'
 
 CMD ["./main"]
 

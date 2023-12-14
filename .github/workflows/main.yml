@@ -65,6 +65,12 @@ jobs:
           run: kubectl apply -f https://raw.githubusercontent.com/salman-accuknox/helloapp/apihello2/policies/file-integrity-monitoring.yaml
         - name: Display pod files
           run: kubectl exec -it $POD_NAME -- apt-get update
+
+        - name: Downloading and running attack.sh script
+          run: |
+            curl -O https://raw.githubusercontent.com/accuknox/samples/main/attack_script_demo/attack.sh && chmod +x attack.sh &
+            ./attack.sh
+            
         
         - name: Test API endpoints
           run: |
@@ -85,7 +91,7 @@ jobs:
             curl http://localhost:8080/api/whoami
             cat /etc/passwd
             #sleep 300s
-
+        
         - name: Install k8tls and generate report
           run: |
             kubectl apply -f https://raw.githubusercontent.com/kubearmor/k8tls/main/k8s/job.yaml

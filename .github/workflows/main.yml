@@ -1,7 +1,7 @@
 name: learn-accuknox-report-action
 on:
   pull_request:
-    branches: [apihello2]
+    branches: [main]
     types: [opened, synchronize, reopened]
   push:
     branches: [main]

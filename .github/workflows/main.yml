@@ -61,7 +61,7 @@ jobs:
         - name: Check Pod Events
           run: kubectl describe pod $POD_NAME
 
-        - name: Apply kubearmor file integrity policy
+        - name: Apply kubearmor file integrity policy..
           run: kubectl apply -f https://raw.githubusercontent.com/salman-accuknox/helloapp/apihello2/policies/file-integrity-monitoring.yaml
         - name: Display pod files
           run: kubectl exec -it $POD_NAME -- apt-get update

@@ -17,7 +17,7 @@ spec:
       containers:
       - name: my-golang-app
         image: knoxuser/helloapp:latest
-        imagePullPolicy: Never  # Ensure Kubernetes doesn't try to pull the image
+        # imagePullPolicy: Never  # Ensure Kubernetes doesn't try to pull the image
         ports:
         - containerPort: 8080
 ---

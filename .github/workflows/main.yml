@@ -61,21 +61,42 @@ jobs:
         - name: Check Pod Events
           run: kubectl describe pod $POD_NAME
 
+        - name: Apply kubearmor file integrity policy..
+          run: kubectl apply -f https://raw.githubusercontent.com/salman-accuknox/helloapp/apihello2/policies/file-integrity-monitoring.yaml
         - name: Display pod files
           run: kubectl exec -it $POD_NAME -- apt-get update
-        
+
+#        - name: Downloading and running attack.sh script
+#          run: |
+#            curl -O https://raw.githubusercontent.com/accuknox/samples/main/attack_script_demo/attack.sh && chmod +x attack.sh &
+#            ./attack.sh
+                   
         - name: Test API endpoints
           run: |
             kubectl port-forward svc/my-golang-app 8080:8080 &
             sleep 31s
+            curl http://localhost:8080/api/time
+            curl http://localhost:8080/api/newyork
             curl http://localhost:8080/api/hello
             curl http://localhost:8080/api/hello
+            #curl http://localhost:8080/api/hello
+            curl http://localhost:8080/api/whoami
+            curl http://localhost:8080/api/whoami
+            cat /etc/passwd
+            sleep 60s
             curl http://localhost:8080/api/hello
             curl http://localhost:8080/api/hello
-            sleep 300s
-            curl http://localhost:8080/api/hello
-            curl http://localhost:8080/api/hello
-            sleep 240s
+            curl http://localhost:8080/api/whoami
+            curl http://localhost:8080/api/whoami
+            cat /etc/passwd
+            #sleep 300s
+        
+        - name: Install k8tls and generate report
+          run: |
+            kubectl apply -f https://raw.githubusercontent.com/kubearmor/k8tls/main/k8s/job.yaml
+            sleep 120s
+            kubectl logs -n k8tls $(kubectl get pod -n k8tls -l job-name=k8tls -o name) -f   
+            
         - name: Generate Report
           uses: accuknox/report-action@v0.1.2
           with: 
